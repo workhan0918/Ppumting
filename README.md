@@ -71,7 +71,7 @@
 상단의 수정 버튼을 눌러 정보를 회원 정보를 수정 및 탈퇴 할 수 있습니다.
 ![image](https://user-images.githubusercontent.com/100820039/187139751-cdbcc190-862b-413e-8070-410139306168.png)
      
-# 결제
+# 포인트 충전
  상단의 포인트 충전 버튼을 눌러 금액을 충전 할 수 있습니다.
     
 금액 충전시 랜덤의 고유 계좌를 생성해주도록 하였습니다.
@@ -124,4 +124,37 @@
  
 ```
     
-     
+# 결제
+ 
+ 왼쪽 상단에 있는 P.P.T 버튼을 클릭하여 P.T를 결제 할 수 있습니다.
+ 
+ 자신이 원하는 개월 수와 P.T선생님을 선택하여 결제 할 수 있습니다.
+ 
+ ![image](https://user-images.githubusercontent.com/100820039/187149511-92ced41f-e5f0-4450-9cc2-1eafaee3369c.png)
+
+# 게시판 글쓰기
+
+게시판 조회
+![image](https://user-images.githubusercontent.com/100820039/187151886-2370dbfc-df81-4353-b34f-d949e8fe6555.png)
+
+![image](https://user-images.githubusercontent.com/100820039/187150986-61e789ea-92a5-49b3-ab69-316bce4d3a02.png)
+
+
+# 게시판 글수정
+
+![image](https://user-images.githubusercontent.com/100820039/187151154-142a56d8-d0ac-4f54-a7ae-865a59e3e723.png)
+
+![image](https://user-images.githubusercontent.com/100820039/187151307-01c337dc-e02a-4786-aad0-9c184458a4e2.png)
+
+![image](https://user-images.githubusercontent.com/100820039/187151403-8e168422-e58f-4465-993c-a6e40bfda2dd.png)
+
+![image](https://user-images.githubusercontent.com/100820039/187151522-7c7154f2-52c2-4a36-be70-52de7a3ab38a.png)
+
+# 게시판 글삭제
+
+
+
+
+
+ 
+ 
