@@ -150,9 +150,130 @@
 
 ![image](https://user-images.githubusercontent.com/100820039/187151522-7c7154f2-52c2-4a36-be70-52de7a3ab38a.png)
 
-# 게시판 글삭제
+# 담당 기능
+
+# 쪽지 보내기
+
+원래 쪽지를 보내면 DB를 하나로 처리할려고 했으나 그렇게 되면 받은사람이 쪽지를 삭제하게 되면 보낸 사람의 보낸 쪽지함에서도 쪽지가 삭제되는 문제가 발생하여
+
+DB를 두개로 나누어 해결했습니다.
+
+![image](https://user-images.githubusercontent.com/100820039/188304538-b4349e2a-777b-4f24-8b42-7a22be8ededf.png)
+
+![image](https://user-images.githubusercontent.com/100820039/188304547-a0ba8374-38bc-4042-841a-0269485d0761.png)
+
+![image](https://user-images.githubusercontent.com/100820039/188304565-58a60837-86d8-48d5-8d6c-afe8e137f870.png)
+
+![image](https://user-images.githubusercontent.com/100820039/188304591-ca4e202c-8d93-4ef8-a0d8-e0f7871da5d3.png)
+
+![image](https://user-images.githubusercontent.com/100820039/188304607-1caca65c-fef5-4731-b2b2-bae44fd527e3.png)
+
+![image](https://user-images.githubusercontent.com/100820039/188304617-a5bcf816-4348-4081-8d1d-82cdb6ca033d.png)
 
 
+노트 보내기 기능 주요 코드 입니다.
+
+SendNoteServlet
+
+```Java
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		
+		String title = request.getParameter("title");
+		String msg = request.getParameter("msg");
+		String receiveUserId = request.getParameter("receiveUserId");
+		HttpSession session = request.getSession(false);
+		String sendUserId = (String) session.getAttribute("userId");
+		
+		Note note = new Note();
+		
+		note.setTitle(title);
+		note.setMsg(msg);
+		note.setReceiveUserId(receiveUserId);
+		note.setSendUserId(sendUserId);
+		service.sendNote(note);
+		
+		request.getRequestDispatcher("close.jsp").forward(request, response);
+	}
+```
+
+NoteDao
+```Java
+/쪽지 보내기 기능
+	public void addNote(Note note) {
+		String sql = "INSERT INTO RcvNotes(sentid, userid, title, msg)"
+				+ "VALUES(?, ?, ?, ?)";
+		String sql2 = "INSERT INTO SendNotes(userid, recvid, title, msg)"
+				+ "VALUES(?, ?, ?, ?)";
+		try {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			Connection con2 = null;
+			PreparedStatement pstmt2 = null;
+			try {
+				con = datasource.getConnection();
+				con2 = datasource2.getConnection();
+				
+				pstmt = con.prepareStatement(sql);
+				pstmt2 = con.prepareStatement(sql2);
+				
+				pstmt.setString(1, note.getSendUserId());
+				pstmt.setString(2, note.getReceiveUserId());
+				pstmt.setString(3, note.getTitle());
+				pstmt.setString(4, note.getMsg());
+				
+				pstmt2.setString(1, note.getSendUserId());
+				pstmt2.setString(2, note.getReceiveUserId());
+				pstmt2.setString(3, note.getTitle());
+				pstmt2.setString(4, note.getMsg());
+				
+				pstmt.executeUpdate();
+				pstmt2.executeUpdate();
+				System.out.println("addMsgComplete!");
+			}finally {
+				datasource.close(pstmt, con);
+				datasource2.close(pstmt2, con2);
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+```
+
+또한 입력중 200자를 넘을경우 스크립트를 이용해 200자이상으로 글자를 입력 못하게 제한했습니다.
+
+![image](https://user-images.githubusercontent.com/100820039/188304843-f3aa904d-eaf6-4884-a8f8-94bf0c7fdcce.png)
+
+스크립트 코드
+
+```javascript
+  <script type="text/javascript">
+  $('.text_box textarea').keyup(function(){
+  	  var content = $(this).val();
+  	  $('.text_box .count span').html(content.length);
+  	  if (content.length > 200){
+  	    alert("최대 200자까지 입력 가능합니다.");
+  	    $(this).val(content.substring(0, 200));
+  	    $('.text_box .count span').html(200);
+  	  }
+  	});
+  </script>
+```
+
+# 쪽지 삭제
+
+![image](https://user-images.githubusercontent.com/100820039/188304761-bb1899a4-431d-40ee-ba08-5c7c6e845543.png)
+
+![image](https://user-images.githubusercontent.com/100820039/188304771-b432ca7b-1a3a-4fe9-8163-d51726c197f4.png)
+
+![image](https://user-images.githubusercontent.com/100820039/188304780-56b50b09-3c5b-4bd6-918b-7b7e3c21c7a9.png)
+
+# 쪽지 답장
+
+![image](https://user-images.githubusercontent.com/100820039/188304794-e818846b-190e-4249-9ac8-bb8a83414626.png)
+
+![image](https://user-images.githubusercontent.com/100820039/188304800-e0078973-3ac2-4018-826e-dc8b86596944.png)
 
 
 
